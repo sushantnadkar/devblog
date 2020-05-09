@@ -1,0 +1,31 @@
+---
+layout: base
+---
+
+<div id="posts" class="row m-auto">
+
+    {% include paginate.html %}
+    
+    {% if paginator.posts.size > 0 %}
+        {% for post in paginator.posts %}
+        <div class="card mb-5">
+            {% if post.image %}
+            <a href={{ site.baseurl }}{{ post.url }}>
+            <img src={{ site.baseurl }}{{ post.image }} class="card-img-top p-2" alt="...">
+            </a>
+            {% endif %}
+            <div class="card-body">
+            <h1><a href={{ site.baseurl }}{{ post.url }}>{{ post.title }}</a></h1>
+            <p class="card-text mb-5 text-muted">{{ post.date | date: "%d %b %Y" }}</p>
+            <p class="card-text mb-5 text-muted">{{ post.excerpt }}</p>
+            <p class="card-text mb-5">
+                <a href={{ site.baseurl }}{{ post.url }}>Continue Reading >></a>
+            </p>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+    
+    {% include paginate.html %}
+
+</div>
