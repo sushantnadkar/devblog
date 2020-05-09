@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How to upload Python code to PyPi | Dev Blog</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="How to upload Python code to PyPi" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Today in this post I will be talking on how to upload your Python code to Python Package Index (PyPi) so that other developers around the world can benefit from the code you wrote." />
+<meta property="og:description" content="Today in this post I will be talking on how to upload your Python code to Python Package Index (PyPi) so that other developers around the world can benefit from the code you wrote." />
+<link rel="canonical" href="https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html" />
+<meta property="og:url" content="https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html" />
+<meta property="og:site_name" content="Dev Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-28T00:00:00+05:30" />
+<script type="application/ld+json">
+{"headline":"How to upload Python code to PyPi","dateModified":"2020-04-28T00:00:00+05:30","url":"https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html","datePublished":"2020-04-28T00:00:00+05:30","mainEntityOfPage":{"@type":"WebPage","@id":"https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html"},"description":"Today in this post I will be talking on how to upload your Python code to Python Package Index (PyPi) so that other developers around the world can benefit from the code you wrote.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sushantnadkar.github.io/blog/feed.xml" title="Dev Blog" /><link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- Google Font Open Sans -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
+      </head>
+
+  <body>
+    <div class="container body">
+        <div id="display-pic" class="row">
+    <div>
+        <a href="https://sushantnadkar.github.io/blog/">
+            <img class="rounded-circle" src="https://ryanfitzgerald.github.io/devblog/static/main.15a63694.jpg" />
+        </a>
+    </div>
+</div>
+<div id="name" class="row">
+    <h1><a href="https://sushantnadkar.github.io/blog/">Sushant Nadkar</a></h1>
+</div>
+<div id="skill" class="row">
+    <p>Developer, Maker</p>
+</div>
+<div id="social" class="row mb-5">
+    <div>
+        <a href="https://sushantnadkar.github.io/blog/">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <small>Home</small>
+        </a>
+        <a href="https://sushantnadkar.github.io" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <small>Website</small>
+        </a>
+        <a href="https://github.com/sushantnadkar" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                </path>
+            </svg>
+            <small>Github</small>
+        </a>
+        <a href="https://linkedin.com/in/sushantnadkar" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                <rect x="2" y="9" width="4" height="12"></rect>
+                <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+            <small>LinkedIn</small></a>
+    </div>
+</div>
+
+        <div id="article" class="card m-auto">
+    
+    <div class="card-body p-4 p-lg-5">
+    <div class="card-head row">
+        <h1>How to upload Python code to PyPi</h1>
+        <p>28 Apr 2020</p>
+        <span></span>
+    </div>
+    <p>Today in this post I will be talking on how to upload your Python code to Python Package Index (PyPi) so that other developers around the world can benefit from the code you wrote.</p>
+
+<p>PyPi is a software repository for Python programming language. This a similar to Git repositories, except that PyPi is exclusively for Python packages. Packages uploaded here are installed using <strong>pip</strong> a Python package installer. So, let’s move ahead and let me tell you how you can let other developers make use of the code you have written.</p>
+
+<p>So, let’s get started…</p>
+
+<h2 id="creating-the-package">Creating the package</h2>
+<p>I am assuming that you already have some code files ready to be distributed. Apart from the code files we also need some specific files at specific locations. Following is the suitable file structure:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package_name
+├── module_1
+│  ├── __init__.py
+│  └── other_py_files.py
+├── module_2
+│  ├── __init__.py
+│  └── other_py_files.py
+├── README.md
+├── LICENSE
+└── setup.py
+</code></pre></div></div>
+
+<p>In the above structure:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">__init__.py</code>: these can be empty file, but they need to be present in all the directories that you wish to be imported in python code, using <code class="highlighter-rouge">import module_1</code>. Hence, <code class="highlighter-rouge">module_1</code> and  <code class="highlighter-rouge">module_2</code> can be imported.</li>
+  <li><code class="highlighter-rouge">LICENSE</code>: it is advisable that you include a license. If you are not sure as to which license to include you can have a look <a href="https://choosealicense.com/">Choose an open source license</a>.</li>
+  <li><code class="highlighter-rouge">README.md</code>: do add a readme, giving enough info related to your package. This help others figure out if a package is suitable for their needs and also an idea as to how to use the code.</li>
+  <li><code class="highlighter-rouge">setup.py</code>: this is a build script required by <code class="highlighter-rouge">setuptools</code>, for now create this file, we will add content in the following section.</li>
+</ul>
+
+<h2 id="the-setup-file">The setup file</h2>
+<p><code class="highlighter-rouge">setup.py</code> is a build script, that contains all the necessary information needed for <a href="https://packaging.python.org/key_projects/#setuptools">setuptools</a> for installing the package. Open the <code class="highlighter-rouge">setup.py</code> file and add the following content:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"README.md"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+   <span class="n">long_description</span> <span class="o">=</span> <span class="n">fh</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="n">setuptools</span><span class="p">.</span><span class="n">setup</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s">"package_name"</span><span class="p">,</span> <span class="c1"># Replace with your own username
+</span>    <span class="n">version</span><span class="o">=</span><span class="s">"0.0.1"</span><span class="p">,</span>
+    <span class="n">author</span><span class="o">=</span><span class="s">"Example Author"</span><span class="p">,</span>
+    <span class="n">author_email</span><span class="o">=</span><span class="s">"author@example.com"</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s">"A small example package"</span><span class="p">,</span>
+    <span class="n">long_description</span><span class="o">=</span><span class="n">long_description</span><span class="p">,</span>
+    <span class="n">long_description_content_type</span><span class="o">=</span><span class="s">"text/markdown"</span><span class="p">,</span>
+    <span class="n">url</span><span class="o">=</span><span class="s">"https://github.com/pypa/sampleproject"</span><span class="p">,</span>
+    <span class="n">packages</span><span class="o">=</span><span class="n">setuptools</span><span class="p">.</span><span class="n">find_packages</span><span class="p">(),</span>
+    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
+        <span class="s">"Programming Language :: Python :: 3"</span><span class="p">,</span>
+        <span class="s">"License :: OSI Approved :: MIT License"</span><span class="p">,</span>
+        <span class="s">"Operating System :: OS Independent"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">python_requires</span><span class="o">=</span><span class="s">'&gt;=3.6'</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>Let me explain the above content.</p>
+
+<p>The <code class="highlighter-rouge">setuptools.setup()</code> function takes several arguments, some of the basic one are mentioned here.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">name</code>: this will be the name of the package. Make sure that it contains only alphabets, numbers, hyphen (“-“) and underscore (“_”). Also that it should be unique and not be taken up by other packages on PyPi.</li>
+  <li><code class="highlighter-rouge">version</code>: this will the version number for your package. Have a look at, <a href="https://www.python.org/dev/peps/pep-0440/">PEP 440 – Version Identification and Dependency Specification</a> for more details on version numbers.</li>
+  <li><code class="highlighter-rouge">author</code>: name of the author of the package.</li>
+  <li><code class="highlighter-rouge">author_email</code>: contact email of the author of the package.</li>
+  <li><code class="highlighter-rouge">description</code>: one liner description of the package.</li>
+  <li>
+    <p><code class="highlighter-rouge">long_description</code>: detailed description of the package. This will be displayed on the package description page on PyPi. Generally this is loaded from a file. The following lines form above snippet are used to load the content from a file:</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"README.md"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+      <span class="n">long_description</span> <span class="o">=</span> <span class="n">fh</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div>    </div>
+
+    <p>Most popular file types used are markdown (<code class="highlighter-rouge">md</code>), reStructured text (<code class="highlighter-rouge">rst</code>) or plain text (<code class="highlighter-rouge">txt</code>).</p>
+  </li>
+  <li><code class="highlighter-rouge">long_description_content_type</code>: type of the file/content provided to <code class="highlighter-rouge">long_description</code>. Options are <code class="highlighter-rouge">text/plain</code>, <code class="highlighter-rouge">text/x-rst</code>, or <code class="highlighter-rouge">text/markdown</code> for plain text, restructured or markdown files respectively.</li>
+  <li><code class="highlighter-rouge">url</code>: url to project’s homepage</li>
+  <li><code class="highlighter-rouge">packages</code>: list of all other Python packages required by your package. To make your life easier, you don’t need to list them manually, use the <code class="highlighter-rouge">setuptools.find_packages()</code> function, this will list all the packages and sub-packages used.</li>
+  <li><code class="highlighter-rouge">classifiers</code>: provides pip and PyPi some metadata related to our package. In the above example it states that it requires Python 3, has a MIT license and is OS independent. For full list of classifiers head off to, <a href="https://pypi.org/classifiers/">https://pypi.org/classifiers/</a>.</li>
+  <li><code class="highlighter-rouge">python_requires</code>: mentions the Python version required by your package.</li>
+</ul>
+
+<p>The arguments mentioned here provides some basic information about the package. If you wish to know all the arguments you can have a look at <a href="https://stackoverflow.com/questions/58533084/what-keyword-arguments-does-setuptools-setup-accept">What keyword arguments does <code class="highlighter-rouge">setuptools.setup</code> accept</a>.</p>
+
+<h2 id="generating-distribution-packages">Generating distribution packages</h2>
+<p>Now that our project structure and setup file is ready, let’s move on and build our project into distribution packages to be uploaded.</p>
+
+<p>I assume that you already have <code class="highlighter-rouge">setuptools</code> and <code class="highlighter-rouge">wheels</code> installed and updated. If not use the following code to do so:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--upgrade</span> setuptools wheel
+</code></pre></div></div>
+
+<p>If you have trouble doing so, have a look at <a href="https://packaging.python.org/tutorials/installing-packages/">Installing Packages</a>.</p>
+
+<p>Now, navigate to the root directory of your project, that is, to the directory where we have our <code class="highlighter-rouge">setup.py</code> file, and execute the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 setup.py sdist bdist_wheel
+</code></pre></div></div>
+
+<p>If you have trouble creating these packages, then you can report it by creating a Github issue at <a href="https://github.com/pypa/packaging-problems/issues/new?title=Trouble+following+packaging+libraries+tutorial">Packaging Problems</a>.</p>
+
+<p>After successful execution of this code a new directory will be creating with following files in it:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dist/
+  package_name-0.0.1-py3-none-any.whl
+  package_name-0.0.1.tar.gz
+</code></pre></div></div>
+
+<p>You will have two files in <code class="highlighter-rouge">dist</code> directory at the root of your project:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">.tar.gz</code>: source file, this is nothing but compressed raw source code ready to be distributed</li>
+  <li><code class="highlighter-rouge">.whl</code>: distribution package, this contains metadata and all files ready to be moved to specific location on the target machine, for your package to be installed</li>
+</ul>
+
+<h2 id="uploading-the-files">Uploading the files</h2>
+<p>Now that we have our package ready to be distributed, let’s upload them!</p>
+
+<h3 id="upload-test">Upload Test</h3>
+<p>Yes! you read it right. We will test uploading of our package first. And no, we won’t be uploading our test package on PyPi’s live servers, and make a mess. PyPi have made sure of that. Along with their <a href="https://pypi.org">live server</a> they also maintain a <a href="https://test.pypi.org/">test server</a>.</p>
+
+<p>So go ahead log onto their test server and <a href="https://test.pypi.org/account/register/">register</a> yourself.</p>
+
+<p>One more thing, that we need before we can upload the files. Use the following code to install twine. Twine is the primary and official tool for developers to upload files to PyPi:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--upgrade</span> twine
+</code></pre></div></div>
+
+<p>Now we have everything set-up to upload our files, using the following code:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> twine upload <span class="nt">--repository</span> testpypi dist/<span class="k">*</span>
+</code></pre></div></div>
+
+<p>In the previous command, <code class="highlighter-rouge">--repository</code> is used to mention that we are uploading our package to test server and not to live server.</p>
+
+<p>Type in your username and password when you will be prompted for. When you do so your file should get uploaded and you should see the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Uploading distributions to https://test.pypi.org/legacy/
+Enter your username: <span class="o">[</span>your username]
+Enter your password:
+Uploading package_name-0.0.1-py3-none-any.whl
+100%|█████████████████████| 4.65k/4.65k <span class="o">[</span>00:01&lt;00:00, 2.88kB/s]
+Uploading package_name-0.0.1.tar.gz
+100%|█████████████████████| 4.25k/4.25k <span class="o">[</span>00:01&lt;00:00, 3.05kB/s] 
+
+View at:
+https://test.pypi.org/project/package_name/0.0.1/
+</code></pre></div></div>
+
+<p>You can now view your project on PyPi test server. Head off, to the url mentioned at the end of the previous command.</p>
+
+<h3 id="verify-the-upload">Verify the upload</h3>
+
+<p>Now that we have uploaded our package, let’s install this directly for PyPi server using pip and verify our upload. Use the following code to do so:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 <span class="nt">-m</span> pip <span class="nb">install</span> <span class="nt">--index-url</span> https://test.pypi.org/simple/ <span class="nt">--no-deps</span> package_name
+</code></pre></div></div>
+
+<p>Let me explain you the options used in previous command:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">--index-url</code>: to mention that we are installing from test server and not from live PyPi server</li>
+  <li><code class="highlighter-rouge">--no-deps</code>: this tells pip to not install any dependencies (if any) for the package. And that is because, data on the test server can be purged anytime without notice, as a result, installing dependencies may fail or may install something unexpected. It is always recommended to use <code class="highlighter-rouge">--no-deps</code> while installing anything from PyPi test server.</li>
+</ul>
+
+<p>Use should see the following output for the previous command, indicating successful download and installation of your package:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Collecting package_name
+  Downloading https://test-files.pythonhosted.org/packages/.../package_name-0.0.1-py3-none-any.whl
+Installing collected packages: package_name
+Successfully installed package_name-0.0.1
+</code></pre></div></div>
+
+<p><strong>Note: Never rely on PyPi test server, all packages along with user accounts from this server is occasionally deleted and purged.</strong></p>
+
+<p>Congratulation, you have packaged and uploaded your Python project!</p>
+
+<h3 id="uploading-to-and-installing-from-live-server">Uploading to and Installing from Live Server</h3>
+
+<p>Now, to upload your package to live server, you have to follow same steps that you performed to upload your package to test server, but with the following important modifications:</p>
+
+<ul>
+  <li>Choose a memorable and unique name for you package.</li>
+  <li>Register an account on live PyPi server at <a href="https://pypi.org">https://pypi.org</a> – note that live and test servers are two different servers, hence no details are shared among these two servers.</li>
+  <li>
+    <p>To upload the package to live server you don’t need to mention <code class="highlighter-rouge">--repository</code>. Just use the following, this will upload your package to https://pypi.org, by default:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  python3 <span class="nt">-m</span> twine upload dist/<span class="k">*</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Similarly, you don’t need to mention <code class="highlighter-rouge">--index-url</code> while installing the package, just use the following:</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  python3 <span class="nt">-m</span> pip <span class="nb">install </span>package_name
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Remember, you also need to upload your packages on live PyPi server, even if you have uploaded your packages on test server. As the name suggest, it is a test server and is meant only for testing. All packages, including user account details are occasionally deleted. So, after testing and verifying everything on test server, upload your packages on <strong>LIVE</strong> server at <a href="https://pypi.org/">PyPi.org</a>.</p>
+
+    </div>
+    <div class="row share">
+    <h3>Share this post</h3>
+    <div class="m-auto">
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html" >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reactid="48"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" data-reactid="49"></path></svg>
+      </a>
+      <a href="https://twitter.com/intent/tweet?text=How to upload Python code to PyPi&url=https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reactid="51"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" data-reactid="52"></path></svg>
+      </a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html&title=How to upload Python code to PyPi">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-reactid="54"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" data-reactid="55"></path><rect x="2" y="9" width="4" height="12" data-reactid="56"></rect><circle cx="4" cy="4" r="2" data-reactid="57"></circle></svg>
+      </a>
+    </div>
+</div>
+
+</div>
+
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+  </body>
+
+</html>

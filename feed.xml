@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://sushantnadkar.github.io/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sushantnadkar.github.io/blog/" rel="alternate" type="text/html" /><updated>2020-05-09T18:38:44+05:30</updated><id>https://sushantnadkar.github.io/blog/feed.xml</id><title type="html">Dev Blog</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">How to upload Python code to PyPi</title><link href="https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html" rel="alternate" type="text/html" title="How to upload Python code to PyPi" /><published>2020-04-28T00:00:00+05:30</published><updated>2020-04-28T00:00:00+05:30</updated><id>https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi</id><content type="html" xml:base="https://sushantnadkar.github.io/blog/2020/04/28/uploading-python-packages-to-pypi.html">&lt;p&gt;Today in this post I will be talking on how to upload your Python code to Python Package Index (PyPi) so that other developers around the world can benefit from the code you wrote.&lt;/p&gt;
+
+&lt;p&gt;PyPi is a software repository for Python programming language. This a similar to Git repositories, except that PyPi is exclusively for Python packages. Packages uploaded here are installed using &lt;strong&gt;pip&lt;/strong&gt; a Python package installer. So, let’s move ahead and let me tell you how you can let other developers make use of the code you have written.&lt;/p&gt;
+
+&lt;p&gt;So, let’s get started…&lt;/p&gt;
+
+&lt;h2 id=&quot;creating-the-package&quot;&gt;Creating the package&lt;/h2&gt;
+&lt;p&gt;I am assuming that you already have some code files ready to be distributed. Apart from the code files we also need some specific files at specific locations. Following is the suitable file structure:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;package_name
+├── module_1
+│  ├── __init__.py
+│  └── other_py_files.py
+├── module_2
+│  ├── __init__.py
+│  └── other_py_files.py
+├── README.md
+├── LICENSE
+└── setup.py
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In the above structure:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;__init__.py&lt;/code&gt;: these can be empty file, but they need to be present in all the directories that you wish to be imported in python code, using &lt;code class=&quot;highlighter-rouge&quot;&gt;import module_1&lt;/code&gt;. Hence, &lt;code class=&quot;highlighter-rouge&quot;&gt;module_1&lt;/code&gt; and  &lt;code class=&quot;highlighter-rouge&quot;&gt;module_2&lt;/code&gt; can be imported.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LICENSE&lt;/code&gt;: it is advisable that you include a license. If you are not sure as to which license to include you can have a look &lt;a href=&quot;https://choosealicense.com/&quot;&gt;Choose an open source license&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;README.md&lt;/code&gt;: do add a readme, giving enough info related to your package. This help others figure out if a package is suitable for their needs and also an idea as to how to use the code.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;setup.py&lt;/code&gt;: this is a build script required by &lt;code class=&quot;highlighter-rouge&quot;&gt;setuptools&lt;/code&gt;, for now create this file, we will add content in the following section.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-setup-file&quot;&gt;The setup file&lt;/h2&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;setup.py&lt;/code&gt; is a build script, that contains all the necessary information needed for &lt;a href=&quot;https://packaging.python.org/key_projects/#setuptools&quot;&gt;setuptools&lt;/a&gt; for installing the package. Open the &lt;code class=&quot;highlighter-rouge&quot;&gt;setup.py&lt;/code&gt; file and add the following content:&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;README.md&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;long_description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;setuptools&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;package_name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# Replace with your own username
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;0.0.1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Example Author&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;author_email&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;author@example.com&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;A small example package&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;long_description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;long_description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;long_description_content_type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/markdown&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;https://github.com/pypa/sampleproject&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;packages&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setuptools&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;find_packages&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(),&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;classifiers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;Programming Language :: Python :: 3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;License :: OSI Approved :: MIT License&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;Operating System :: OS Independent&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;python_requires&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&amp;gt;=3.6'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let me explain the above content.&lt;/p&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;setuptools.setup()&lt;/code&gt; function takes several arguments, some of the basic one are mentioned here.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;name&lt;/code&gt;: this will be the name of the package. Make sure that it contains only alphabets, numbers, hyphen (“-“) and underscore (“_”). Also that it should be unique and not be taken up by other packages on PyPi.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;version&lt;/code&gt;: this will the version number for your package. Have a look at, &lt;a href=&quot;https://www.python.org/dev/peps/pep-0440/&quot;&gt;PEP 440 – Version Identification and Dependency Specification&lt;/a&gt; for more details on version numbers.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;author&lt;/code&gt;: name of the author of the package.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;author_email&lt;/code&gt;: contact email of the author of the package.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;description&lt;/code&gt;: one liner description of the package.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;long_description&lt;/code&gt;: detailed description of the package. This will be displayed on the package description page on PyPi. Generally this is loaded from a file. The following lines form above snippet are used to load the content from a file:&lt;/p&gt;
+
+    &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;README.md&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;r&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;long_description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;fh&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;Most popular file types used are markdown (&lt;code class=&quot;highlighter-rouge&quot;&gt;md&lt;/code&gt;), reStructured text (&lt;code class=&quot;highlighter-rouge&quot;&gt;rst&lt;/code&gt;) or plain text (&lt;code class=&quot;highlighter-rouge&quot;&gt;txt&lt;/code&gt;).&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;long_description_content_type&lt;/code&gt;: type of the file/content provided to &lt;code class=&quot;highlighter-rouge&quot;&gt;long_description&lt;/code&gt;. Options are &lt;code class=&quot;highlighter-rouge&quot;&gt;text/plain&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;text/x-rst&lt;/code&gt;, or &lt;code class=&quot;highlighter-rouge&quot;&gt;text/markdown&lt;/code&gt; for plain text, restructured or markdown files respectively.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;url&lt;/code&gt;: url to project’s homepage&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;packages&lt;/code&gt;: list of all other Python packages required by your package. To make your life easier, you don’t need to list them manually, use the &lt;code class=&quot;highlighter-rouge&quot;&gt;setuptools.find_packages()&lt;/code&gt; function, this will list all the packages and sub-packages used.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;classifiers&lt;/code&gt;: provides pip and PyPi some metadata related to our package. In the above example it states that it requires Python 3, has a MIT license and is OS independent. For full list of classifiers head off to, &lt;a href=&quot;https://pypi.org/classifiers/&quot;&gt;https://pypi.org/classifiers/&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;python_requires&lt;/code&gt;: mentions the Python version required by your package.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The arguments mentioned here provides some basic information about the package. If you wish to know all the arguments you can have a look at &lt;a href=&quot;https://stackoverflow.com/questions/58533084/what-keyword-arguments-does-setuptools-setup-accept&quot;&gt;What keyword arguments does &lt;code class=&quot;highlighter-rouge&quot;&gt;setuptools.setup&lt;/code&gt; accept&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;generating-distribution-packages&quot;&gt;Generating distribution packages&lt;/h2&gt;
+&lt;p&gt;Now that our project structure and setup file is ready, let’s move on and build our project into distribution packages to be uploaded.&lt;/p&gt;
+
+&lt;p&gt;I assume that you already have &lt;code class=&quot;highlighter-rouge&quot;&gt;setuptools&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;wheels&lt;/code&gt; installed and updated. If not use the following code to do so:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--upgrade&lt;/span&gt; setuptools wheel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you have trouble doing so, have a look at &lt;a href=&quot;https://packaging.python.org/tutorials/installing-packages/&quot;&gt;Installing Packages&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, navigate to the root directory of your project, that is, to the directory where we have our &lt;code class=&quot;highlighter-rouge&quot;&gt;setup.py&lt;/code&gt; file, and execute the following command:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 setup.py sdist bdist_wheel
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you have trouble creating these packages, then you can report it by creating a Github issue at &lt;a href=&quot;https://github.com/pypa/packaging-problems/issues/new?title=Trouble+following+packaging+libraries+tutorial&quot;&gt;Packaging Problems&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;After successful execution of this code a new directory will be creating with following files in it:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;dist/
+  package_name-0.0.1-py3-none-any.whl
+  package_name-0.0.1.tar.gz
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You will have two files in &lt;code class=&quot;highlighter-rouge&quot;&gt;dist&lt;/code&gt; directory at the root of your project:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.tar.gz&lt;/code&gt;: source file, this is nothing but compressed raw source code ready to be distributed&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;.whl&lt;/code&gt;: distribution package, this contains metadata and all files ready to be moved to specific location on the target machine, for your package to be installed&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;uploading-the-files&quot;&gt;Uploading the files&lt;/h2&gt;
+&lt;p&gt;Now that we have our package ready to be distributed, let’s upload them!&lt;/p&gt;
+
+&lt;h3 id=&quot;upload-test&quot;&gt;Upload Test&lt;/h3&gt;
+&lt;p&gt;Yes! you read it right. We will test uploading of our package first. And no, we won’t be uploading our test package on PyPi’s live servers, and make a mess. PyPi have made sure of that. Along with their &lt;a href=&quot;https://pypi.org&quot;&gt;live server&lt;/a&gt; they also maintain a &lt;a href=&quot;https://test.pypi.org/&quot;&gt;test server&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;So go ahead log onto their test server and &lt;a href=&quot;https://test.pypi.org/account/register/&quot;&gt;register&lt;/a&gt; yourself.&lt;/p&gt;
+
+&lt;p&gt;One more thing, that we need before we can upload the files. Use the following code to install twine. Twine is the primary and official tool for developers to upload files to PyPi:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--upgrade&lt;/span&gt; twine
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we have everything set-up to upload our files, using the following code:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; twine upload &lt;span class=&quot;nt&quot;&gt;--repository&lt;/span&gt; testpypi dist/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;In the previous command, &lt;code class=&quot;highlighter-rouge&quot;&gt;--repository&lt;/code&gt; is used to mention that we are uploading our package to test server and not to live server.&lt;/p&gt;
+
+&lt;p&gt;Type in your username and password when you will be prompted for. When you do so your file should get uploaded and you should see the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Uploading distributions to https://test.pypi.org/legacy/
+Enter your username: &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;your username]
+Enter your password:
+Uploading package_name-0.0.1-py3-none-any.whl
+100%|█████████████████████| 4.65k/4.65k &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;00:01&amp;lt;00:00, 2.88kB/s]
+Uploading package_name-0.0.1.tar.gz
+100%|█████████████████████| 4.25k/4.25k &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;00:01&amp;lt;00:00, 3.05kB/s] 
+
+View at:
+https://test.pypi.org/project/package_name/0.0.1/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can now view your project on PyPi test server. Head off, to the url mentioned at the end of the previous command.&lt;/p&gt;
+
+&lt;h3 id=&quot;verify-the-upload&quot;&gt;Verify the upload&lt;/h3&gt;
+
+&lt;p&gt;Now that we have uploaded our package, let’s install this directly for PyPi server using pip and verify our upload. Use the following code to do so:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--index-url&lt;/span&gt; https://test.pypi.org/simple/ &lt;span class=&quot;nt&quot;&gt;--no-deps&lt;/span&gt; package_name
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let me explain you the options used in previous command:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--index-url&lt;/code&gt;: to mention that we are installing from test server and not from live PyPi server&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--no-deps&lt;/code&gt;: this tells pip to not install any dependencies (if any) for the package. And that is because, data on the test server can be purged anytime without notice, as a result, installing dependencies may fail or may install something unexpected. It is always recommended to use &lt;code class=&quot;highlighter-rouge&quot;&gt;--no-deps&lt;/code&gt; while installing anything from PyPi test server.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Use should see the following output for the previous command, indicating successful download and installation of your package:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Collecting package_name
+  Downloading https://test-files.pythonhosted.org/packages/.../package_name-0.0.1-py3-none-any.whl
+Installing collected packages: package_name
+Successfully installed package_name-0.0.1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;Note: Never rely on PyPi test server, all packages along with user accounts from this server is occasionally deleted and purged.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Congratulation, you have packaged and uploaded your Python project!&lt;/p&gt;
+
+&lt;h3 id=&quot;uploading-to-and-installing-from-live-server&quot;&gt;Uploading to and Installing from Live Server&lt;/h3&gt;
+
+&lt;p&gt;Now, to upload your package to live server, you have to follow same steps that you performed to upload your package to test server, but with the following important modifications:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Choose a memorable and unique name for you package.&lt;/li&gt;
+  &lt;li&gt;Register an account on live PyPi server at &lt;a href=&quot;https://pypi.org&quot;&gt;https://pypi.org&lt;/a&gt; – note that live and test servers are two different servers, hence no details are shared among these two servers.&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;To upload the package to live server you don’t need to mention &lt;code class=&quot;highlighter-rouge&quot;&gt;--repository&lt;/code&gt;. Just use the following, this will upload your package to https://pypi.org, by default:&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; twine upload dist/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Similarly, you don’t need to mention &lt;code class=&quot;highlighter-rouge&quot;&gt;--index-url&lt;/code&gt; while installing the package, just use the following:&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;package_name
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Remember, you also need to upload your packages on live PyPi server, even if you have uploaded your packages on test server. As the name suggest, it is a test server and is meant only for testing. All packages, including user account details are occasionally deleted. So, after testing and verifying everything on test server, upload your packages on &lt;strong&gt;LIVE&lt;/strong&gt; server at &lt;a href=&quot;https://pypi.org/&quot;&gt;PyPi.org&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">Today in this post I will be talking on how to upload your Python code to Python Package Index (PyPi) so that other developers around the world can benefit from the code you wrote.</summary></entry><entry><title type="html">Raspberry Pi Monitoring</title><link href="https://sushantnadkar.github.io/blog/2020/04/20/raspberry-pi-monitoring.html" rel="alternate" type="text/html" title="Raspberry Pi Monitoring" /><published>2020-04-20T00:00:00+05:30</published><updated>2020-04-20T00:00:00+05:30</updated><id>https://sushantnadkar.github.io/blog/2020/04/20/raspberry-pi-monitoring</id><content type="html" xml:base="https://sushantnadkar.github.io/blog/2020/04/20/raspberry-pi-monitoring.html">&lt;p&gt;In this write-up, I will be explaining the steps required to setup your Raspberry Pi with Grafana, InfluxDB and Telegraf to monitor the system.&lt;/p&gt;
+
+&lt;p&gt;Hardware setup that I used:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Raspberry Pi 4 Model B (Raspbian installed)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;So let’s get started…&lt;/p&gt;
+
+&lt;h3 id=&quot;step-1-installing-docker&quot;&gt;Step 1: Installing Docker&lt;/h3&gt;
+
+&lt;p&gt;Docker provides a convenient way to install latest version of Docker into your development environment, we will be using the convenience script today. Although there are other ways to install Docker on Linux destro, this is the only way to install Docker on Rasbian OS.&lt;/p&gt;
+
+&lt;p&gt;Note, this script requires root privileges to run successfully. Script will take care of all dependencies and recommendations, and will install the latest version of Docker. The script is available &lt;a href=&quot;https://get.docker.com&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Let’s download the script and execute it
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; curl &lt;span class=&quot;nt&quot;&gt;-fsSL&lt;/span&gt; https://get.docker.com &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; get-docker.sh
+ &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;sh get-docker.sh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;If you wish to run Docker as a non-root user, add your user to &lt;code class=&quot;highlighter-rouge&quot;&gt;docker&lt;/code&gt; group&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &amp;lt;your-username&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Next, let’s install docker-compose, this enables us to define and run multiple docker containers&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; docker-compose
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Now restart your Pi for all changes to take effect&lt;/p&gt;
+
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;step-2-creating-docker-compose-file&quot;&gt;Step 2: Creating docker-compose file&lt;/h3&gt;
+
+&lt;p&gt;Now as the title says, we need to setup three things:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Grafana&lt;/li&gt;
+  &lt;li&gt;InflucDB&lt;/li&gt;
+  &lt;li&gt;Telegraf&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To make things easier, we will make use of docker-compose instead of setting up each container individually. So, create a file with the following content using nano/ vim or an editor of your choice:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3'&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;services&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;grafana&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;grafana&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;grafana/grafana&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;3000:3000'&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;grafana-storage:/var/lib/grafana&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;links&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;influxdb&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;influxdb&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;influxdb&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;influxdb&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;8083:8083&quot;&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;8086:8086&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;influxdb-storage:/var/lib/influxdb&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;telegraf&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;container_name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;telegraf&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;telegraf&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/var/run/docker.sock:/var/run/docker.sock&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/proc:/host/proc&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${PWD}/conf/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/opt/vc:/opt/vc:ro&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;devices&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/dev/vchiq&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;environment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;na&quot;&gt;LD_LIBRARY_PATH&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/opt/vc/lib&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;network_mode&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;host&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;restart&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;influxdb-storage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;grafana-storage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Let me explain to you a bit about the above content.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;version&lt;/code&gt;: states docker-compose file version&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;services&lt;/code&gt;: list of services that we wish to define and run using this file&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;container_name&lt;/code&gt;: name of the container that will be created for respective services, this will be useful later to run commands like &lt;code class=&quot;highlighter-rouge&quot;&gt;docker logs &amp;lt;container_name&amp;gt;&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;image&lt;/code&gt;: docker image used to create container&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ports&lt;/code&gt;: port combination used by our host and container. &lt;code class=&quot;highlighter-rouge&quot;&gt;8080:80&lt;/code&gt; states that host’s port 8080 is mapped with container’s port 80, that is, all the traffic of host’s port 8080 will be routed to container’s port 80&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;volumes&lt;/code&gt;: paths of the host’s system that are used by container to have a persistent storage, when container is killed or restarted. Here we have used a named volume &lt;code class=&quot;highlighter-rouge&quot;&gt;influxdb-storage&lt;/code&gt;, this must be mentioned in the top-level &lt;code class=&quot;highlighter-rouge&quot;&gt;volumes&lt;/code&gt; key as well&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;links&lt;/code&gt;: way to make the container accessible by its alias, such as &lt;code class=&quot;highlighter-rouge&quot;&gt;http://influxdb:8063&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;devices&lt;/code&gt;: way to bind a available device on host machine to container&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;environment&lt;/code&gt;: environment variables required and used by container&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;network_mode&lt;/code&gt;: states that container should use host system’s network, this doesn’t isolate container’s and host’s network which is the default behaviour&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;restart&lt;/code&gt;: states when should container be restarted&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;volumes&lt;/code&gt;: top-level key used to list the named volumes defined and used by the services&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;step3-configuring-telegraf&quot;&gt;Step3: Configuring Telegraf&lt;/h3&gt;
+
+&lt;p&gt;Telegraf is a plugin-driven server-agent that helps you collect all the necessary stats of a system, databases and/or sensors that you wish to monitor. Not only does it collect this data, but also sends this data to a database and/or cloud server to be stored.&lt;/p&gt;
+
+&lt;p&gt;Let’s configure it now, instead of creating the config file from scratch we will edit the existing file, to make things easier. To do so, we need to get this file from the docker image itself. First we will create a directory to store this file as mentioned in the docker compose file &lt;code class=&quot;highlighter-rouge&quot;&gt;${PWD}/conf/telegraf/telegraf.conf&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-p&lt;/span&gt; conf/telegraf
+docker run &lt;span class=&quot;nt&quot;&gt;--rm&lt;/span&gt; telegraf telegraf config &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; ./config/telegraf/telegraf.cong
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, open this file. Beware! don’t be intimidated by the lines of code this file has. It’s well over 6.5K! But, don’t worry, we are concerned with not more than 50 lines.&lt;/p&gt;
+
+&lt;p&gt;So, open this file in nano/vim or an editor of your choice, and search for &lt;code class=&quot;highlighter-rouge&quot;&gt;[[outputs.influxdb]]&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You will have to uncomment some lines and make some edits. So that this section looks similar to the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-conf highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[[&lt;span class=&quot;n&quot;&gt;outputs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;influxdb&lt;/span&gt;]]
+  &lt;span class=&quot;n&quot;&gt;urls&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;http://127.0.0.1:8086&quot;&lt;/span&gt;]
+  &lt;span class=&quot;n&quot;&gt;database&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;telegraf&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;timeout&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;5s&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;username&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;telegraf&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;password&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;passowrd&amp;gt;&quot;&lt;/span&gt;
+ 
+  &lt;span class=&quot;c&quot;&gt;## HTTP User-Agent
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;user_agent&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;telegraf&quot;&lt;/span&gt;
+ 
+  &lt;span class=&quot;c&quot;&gt;## UDP payload size is the maximum packet size to send.
+&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;udp_payload&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;512B&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now, add the following lines to it. If you wish to maintain the consistency of the file, search for &lt;code class=&quot;highlighter-rouge&quot;&gt;[[inputs.temp]]&lt;/code&gt;, and add these lines below it.&lt;/p&gt;
+
+&lt;div class=&quot;language-conf highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# # Read cpu temperature from file
+&lt;/span&gt;[[&lt;span class=&quot;n&quot;&gt;inputs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;file&lt;/span&gt;]]
+   &lt;span class=&quot;n&quot;&gt;files&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;/sys/class/thermal/thermal_zone0/temp&quot;&lt;/span&gt;]
+   &lt;span class=&quot;n&quot;&gt;name_override&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;cpu_temperature&quot;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;data_format&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;value&quot;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;data_type&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;integer&quot;&lt;/span&gt;
+ 
+ &lt;span class=&quot;c&quot;&gt;# # Get gpu temperature from VidoeCore general command service
+&lt;/span&gt;[[&lt;span class=&quot;n&quot;&gt;inputs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;]]
+   &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt; = [ &lt;span class=&quot;s2&quot;&gt;&quot;/opt/vc/bin/vcgencmd measure_temp&quot;&lt;/span&gt; ]
+   &lt;span class=&quot;n&quot;&gt;name_override&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;gpu_temperature&quot;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;data_format&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;grok&quot;&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;grok_patterns&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;%{NUMBER:value:float}&quot;&lt;/span&gt;]
+
+&lt;span class=&quot;c&quot;&gt;# # Get ARM clock frequency from VideoCore general command sevice
+&lt;/span&gt;[[&lt;span class=&quot;n&quot;&gt;inputs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;]]
+  &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;/opt/vc/bin/vcgencmd measure_clock arm&quot;&lt;/span&gt;]
+  &lt;span class=&quot;n&quot;&gt;name_override&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;cpu_clock&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;data_format&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;grok&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grok_patterns&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;=%{NUMBER:value:float}&quot;&lt;/span&gt;]
+
+&lt;span class=&quot;c&quot;&gt;# # Get GPU clock frequency from VideoCore general command sevice
+&lt;/span&gt;[[&lt;span class=&quot;n&quot;&gt;inputs&lt;/span&gt;.&lt;span class=&quot;n&quot;&gt;exec&lt;/span&gt;]]
+  &lt;span class=&quot;n&quot;&gt;commands&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;/opt/vc/bin/vcgencmd measure_clock gpu&quot;&lt;/span&gt;]
+  &lt;span class=&quot;n&quot;&gt;name_override&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;gpu_clock&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;data_format&lt;/span&gt; = &lt;span class=&quot;s2&quot;&gt;&quot;grok&quot;&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;grok_patterns&lt;/span&gt; = [&lt;span class=&quot;s2&quot;&gt;&quot;=%{NUMBER:value:float}&quot;&lt;/span&gt;]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;step-4-launch-the-containers&quot;&gt;Step 4: Launch the containers&lt;/h3&gt;
+&lt;p&gt;Go ahead and bring up the containers to life with &lt;code class=&quot;highlighter-rouge&quot;&gt;docker-compose -d up&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If everything goes right you should see the following:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Creating influxdb ... &lt;span class=&quot;k&quot;&gt;done
+&lt;/span&gt;Creating telegraf ... &lt;span class=&quot;k&quot;&gt;done
+&lt;/span&gt;Creating grafana  ... &lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;step-5-configuring-influxdb&quot;&gt;Step 5: Configuring InfluxDB&lt;/h3&gt;
+&lt;p&gt;We need to create a user for Telegraf to interact with InfluxDB. Make sure that password used in this command is same as the one mentioned in &lt;code class=&quot;highlighter-rouge&quot;&gt;telegraf.conf&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  docker &lt;span class=&quot;nb&quot;&gt;exec&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-it&lt;/span&gt; influxdb influx
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; use telegraf
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; create user telegraf with password &lt;span class=&quot;s1&quot;&gt;'&amp;lt;password&amp;gt;'&lt;/span&gt; with all privileges
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After running first line &lt;code class=&quot;highlighter-rouge&quot;&gt;docker exec -it influxdb influx&lt;/code&gt;, your prompt should turn to &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; indicating that the command ran successfully.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-6-configuring-grafana&quot;&gt;Step 6: Configuring Grafana&lt;/h3&gt;
+&lt;p&gt;Now head over to your browser, and navigate to Grafana’s address, or if you are doing this on local machine, then navigate to &lt;code class=&quot;highlighter-rouge&quot;&gt;http://localhost:3000&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Go ahead and sign in. Use username as &lt;strong&gt;admin&lt;/strong&gt; and password as &lt;strong&gt;admin&lt;/strong&gt;. On next page you will be asked to change the default password. It is highly recommended that you do so.&lt;/p&gt;
+
+&lt;p&gt;Next, go to &lt;strong&gt;Settings &amp;gt; Data Sources&lt;/strong&gt;, and click on &lt;strong&gt;Add Data Sources&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;You should be presented with list of databases to configure as data sources. Select &lt;strong&gt;InfluxDB&lt;/strong&gt;, listed under &lt;strong&gt;Time series databases&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;On the next page set fields as mentioned below:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;URL&lt;/strong&gt;: http://influxdb:8086&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Database&lt;/strong&gt;: telegraf&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;User&lt;/strong&gt;: telegraf&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Password&lt;/strong&gt;: enter password set for user &lt;code class=&quot;highlighter-rouge&quot;&gt;telegraf&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Note: &lt;em&gt;Username and password must be same as that used while creating user in InfluxDB in the earlier command &lt;code class=&quot;highlighter-rouge&quot;&gt;create user telegraf with password '&amp;lt;password&amp;gt;' with all privileges&lt;/code&gt;&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, click on &lt;strong&gt;Save &amp;amp; Test&lt;/strong&gt;. You should get a green pop-up saying your data source is working. Now you are all set. All you have to do is create, or import a dashboard to monitor your system.&lt;/p&gt;
+
+&lt;h3 id=&quot;step-7-adding-a-dashboard&quot;&gt;Step 7: Adding a Dashboard&lt;/h3&gt;
+
+&lt;p&gt;Now, let’s create your own dashboard. But wait, why reinvent the wheel! Hence, I imported a dashboard from &lt;a href=&quot;https://grafana.com/grafana/dashboards&quot;&gt;Grafana.com&lt;/a&gt;. Select a dashboard that suits your needs, copy the dashboard ID to your clipboard.&lt;/p&gt;
+
+&lt;p&gt;Now, head to &lt;strong&gt;Dashboard &amp;gt; Manage&lt;/strong&gt;, click on the &lt;strong&gt;Import&lt;/strong&gt; button. Paste the dashboard ID in the input field labeled &lt;strong&gt;Grafana.com Dashboard&lt;/strong&gt; and click anywhere outside the field and wait for a while. Now, you will be presented with some new fields to edit. Select &lt;strong&gt;InfluxDB&lt;/strong&gt; for the dropdown labeled &lt;strong&gt;influxdb&lt;/strong&gt; and click on &lt;strong&gt;Import&lt;/strong&gt;. That’s it, you should be presented with the dashboard you chose.&lt;/p&gt;
+
+&lt;p&gt;You could use the one I used to start with &lt;a href=&quot;https://grafana.com/grafana/dashboards/10578&quot;&gt;Raspberry Pi Monitoring&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="raspberry" /><category term="pi," /><category term="docker," /><category term="telegraf," /><category term="influxdb," /><category term="grafana" /><summary type="html">In this write-up, I will be explaining the steps required to setup your Raspberry Pi with Grafana, InfluxDB and Telegraf to monitor the system.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://sushantnadkar.github.io/blog/assets/images/rpi4.jpg" /><media:content medium="image" url="https://sushantnadkar.github.io/blog/assets/images/rpi4.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
