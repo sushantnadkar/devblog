@@ -19,9 +19,6 @@ pre {
 	border-bottom: 1px solid rgba(0,0,0,.125);
 	background-color: rgb(240,240,240);
 }
-/* code {
-	color: rgb(17, 122, 139) !important;
-} */
 .body {
 	max-width: 870px !important;
 }
