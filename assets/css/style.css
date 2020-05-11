@@ -8,11 +8,19 @@ body {
 img {
 	width: 100%;
 }
-code {
-	color: rgb(17, 122, 139) !important;
+ol pre,
+ul pre {
+	margin-left: -5.5rem;
+}
+pre {
+	margin: 0px -3rem;
+    padding: 20px 2rem;
+    border-top: 1px solid rgba(0,0,0,.125);
+	border-bottom: 1px solid rgba(0,0,0,.125);
+	background-color: rgb(240,240,240);
 }
 .body {
-	max-width: 720px;
+	max-width: 870px !important;
 }
 #display-pic div {
 	height: 150px;
@@ -44,7 +52,7 @@ code {
 }
 #posts,
 #article {
-	max-width: 720px;
+	max-width: 870px;
 }
 #posts .paginate {
 	font-size: 0.7em;
@@ -54,6 +62,7 @@ code {
 .paginate div {
 	margin: auto;
 	padding-top: 15px;
+	text-align: center;
 }
 .share {
 	margin: 20px 0 50px;
